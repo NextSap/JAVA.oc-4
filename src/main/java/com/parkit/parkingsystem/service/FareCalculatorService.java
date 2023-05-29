@@ -12,10 +12,10 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
 
-        long inTime = ticket.getInTime().getTime();
-        long outTime = ticket.getOutTime().getTime();
+        long inTime = TimeUnit.MILLISECONDS.toMinutes(ticket.getInTime().getTime());
+        long outTime = TimeUnit.MILLISECONDS.toMinutes(ticket.getOutTime().getTime());
 
-        long duration = TimeUnit.MILLISECONDS.toMinutes(outTime) - TimeUnit.MILLISECONDS.toMinutes(inTime);
+        long duration = outTime - inTime;
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
@@ -28,5 +28,8 @@ public class FareCalculatorService {
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
         }
+
+        if(duration < 30)
+            ticket.setPrice(0);
     }
 }

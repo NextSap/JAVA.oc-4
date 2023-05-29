@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, boolean discount){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
@@ -29,7 +29,11 @@ public class FareCalculatorService {
             default: throw new IllegalArgumentException("Unkown Parking Type");
         }
 
-        if(duration < 30)
+        if (duration < 30)
             ticket.setPrice(0);
+
+        if (discount)
+            ticket.setPrice(ticket.getPrice() * 0.95);
+
     }
 }

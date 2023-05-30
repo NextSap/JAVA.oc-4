@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket, boolean discount){
-        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
-            throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
+        if( (ticket.getOutTime() == null) || (ticket.getOutTime().getTime() < ticket.getInTime().getTime()) ){
+            throw new IllegalArgumentException("Out time provided is incorrect: "+ticket.getOutTime().toString());
         }
 
         long inTime = TimeUnit.MILLISECONDS.toMinutes(ticket.getInTime().getTime());

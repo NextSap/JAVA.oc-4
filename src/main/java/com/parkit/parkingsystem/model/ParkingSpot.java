@@ -2,6 +2,8 @@ package com.parkit.parkingsystem.model;
 
 import com.parkit.parkingsystem.constants.ParkingType;
 
+import java.util.Objects;
+
 public class ParkingSpot {
     private int number;
     private ParkingType parkingType;
@@ -37,4 +39,16 @@ public class ParkingSpot {
         isAvailable = available;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParkingSpot that = (ParkingSpot) o;
+        return number == that.number && isAvailable == that.isAvailable && parkingType == that.parkingType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, parkingType, isAvailable);
+    }
 }

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
-    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
 
@@ -29,7 +29,7 @@ public class ParkingDataBaseIT {
     private static InputReaderUtil inputReaderUtil;
 
     @BeforeAll
-    private static void setUp() throws Exception{
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -39,14 +39,14 @@ public class ParkingDataBaseIT {
     }
 
     @BeforeEach
-    private void setUpPerTest() throws Exception {
+    private void setUpPerTest() {
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(inputReaderUtil.readVehiclePlate()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
     }
 
     @AfterAll
-    private static void tearDown(){
+    private static void tearDown() {
 
     }
 
@@ -56,7 +56,7 @@ public class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         Assertions.assertNotNull(ticket);
-        Assertions.assertEquals("ABCDEF", ticket.getVehicleRegNumber());
+        Assertions.assertEquals("ABCDEF", ticket.getVehiclePlate());
         Assertions.assertEquals(ticket.getParkingSpot(), parkingSpotDAO.getParking(ticket.getParkingSpot().getId()));
     }
 
@@ -67,7 +67,7 @@ public class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         double priceFromDB = ticket.getPrice();
-        fareCalculatorService.calculateFare(ticket, ticketDAO.getNbTicket("ABCDEF") > 0);
+        fareCalculatorService.calculateFare(ticket);
         Assertions.assertEquals(ticket.getPrice(), priceFromDB);
     }
 
@@ -77,8 +77,9 @@ public class ParkingDataBaseIT {
         Thread.sleep(500);
         testParkingLotExit();
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        ticket.setDiscounted(true);
         double priceFromDB = ticket.getPrice();
-        fareCalculatorService.calculateFare(ticket, true);
+        fareCalculatorService.calculateFare(ticket);
         Assertions.assertEquals(ticket.getPrice() * 0.95, priceFromDB);
     }
 

@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket){
-        if( (ticket.getOutTime() == null) || (ticket.getOutTime().getTime() < ticket.getInTime().getTime()) ){
+    public void calculateFare(Ticket ticket) {
+        if ((ticket.getOutTime() == null) || (ticket.getOutTime().getTime() < ticket.getInTime().getTime())) {
             throw new IllegalArgumentException("Out time provided is incorrect: " + ticket.getOutTime().toString());
         }
 
@@ -20,7 +20,7 @@ public class FareCalculatorService {
 
         long duration = outTime - inTime;
 
-        switch (ticket.getParkingSpot().getParkingType()){
+        switch (ticket.getParkingSpot().getParkingType()) {
             case CAR:
                 ticket.setPrice(duration * carRatePerMinute);
                 break;

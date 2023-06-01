@@ -17,6 +17,10 @@ public class PropertiesLoader {
         this.properties = load();
     }
 
+    /**
+     *
+     * @return Config file
+     */
     private Properties load() {
         try (InputStream input = Files.newInputStream(Paths.get("/Users/louisdiilio/IdeaProjects/@ Openclassrooms/JAVA.oc-4/src/main/resources/config.properties"))) {
 

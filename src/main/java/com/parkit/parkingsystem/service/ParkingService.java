@@ -16,7 +16,6 @@ public class ParkingService {
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
     private static final FareCalculatorService fareCalculatorService = new FareCalculatorService();
-
     private final InputReaderUtil inputReaderUtil;
     private final ParkingSpotDAO parkingSpotDAO;
     private final TicketDAO ticketDAO;
@@ -35,7 +34,7 @@ public class ParkingService {
 
             parkingSpot.setAvailable(false);
 
-            String vehiclePlate = askForVehiclePlate();
+            String vehiclePlate = askVehiclePlate();
             boolean discounted = ticketDAO.getAmountTicket(vehiclePlate) > 0;
 
             parkingSpotDAO.updateParking(parkingSpot);
@@ -55,19 +54,19 @@ public class ParkingService {
         }
     }
 
-    public String askForVehiclePlate() {
+    public String askVehiclePlate() {
         System.out.println("Please type the vehicle plate and press enter key");
         return inputReaderUtil.readVehiclePlate();
     }
 
     public ParkingSpot getParkingSpotAvailable() {
-        ParkingType parkingType = askForVehicleType();
+        ParkingType parkingType = askVehicleType();
         int parkingNumber = parkingSpotDAO.getNextAvailableSlot(parkingType);
 
         return parkingNumber > 0 ? new ParkingSpot(parkingNumber, parkingType, true) : null;
     }
 
-    public ParkingType askForVehicleType() {
+    public ParkingType askVehicleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
         System.out.println("2 BIKE");
@@ -85,7 +84,7 @@ public class ParkingService {
 
     public void processExitingVehicle() {
         try {
-            String vehiclePlate = askForVehiclePlate();
+            String vehiclePlate = askVehiclePlate();
 
             Ticket ticket = ticketDAO.getTicket(vehiclePlate);
             ticket.setOutTime(new Date());

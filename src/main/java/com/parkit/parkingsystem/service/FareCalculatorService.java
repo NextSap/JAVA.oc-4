@@ -9,7 +9,7 @@ public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().getTime() < ticket.getInTime().getTime())) {
-            throw new IllegalArgumentException("Out time provided is incorrect: " + ticket.getOutTime().toString());
+            throw new IllegalArgumentException("Out time provided is incorrect: \nOutTime: " + ticket.getOutTime().toString() + "\nInTime: " + ticket.getInTime().toString());
         }
 
         long inTime = TimeUnit.MILLISECONDS.toMinutes(ticket.getInTime().getTime());
@@ -31,10 +31,8 @@ public class FareCalculatorService {
                 throw new IllegalArgumentException("Unkown Parking Type");
         }
 
-        if (duration < 30)
-            ticket.setPrice(0);
+        if (duration < 30) ticket.setPrice(0);
 
-        if (ticket.isDiscounted())
-            ticket.setPrice(ticket.getPrice() * 0.95);
+        if (ticket.isDiscounted()) ticket.setPrice(ticket.getPrice() * 0.95);
     }
 }

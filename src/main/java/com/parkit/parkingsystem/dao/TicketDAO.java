@@ -2,8 +2,8 @@ package com.parkit.parkingsystem.dao;
 
 import com.parkit.parkingsystem.App;
 import com.parkit.parkingsystem.config.DataBaseConfig;
-import com.parkit.parkingsystem.model.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
+import com.parkit.parkingsystem.model.ParkingType;
 import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

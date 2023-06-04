@@ -22,16 +22,15 @@ public class PropertiesLoader {
      * @return Config file
      */
     private Properties load() {
-        try (InputStream input = Files.newInputStream(Paths.get("/Users/louisdiilio/IdeaProjects/@ Openclassrooms/JAVA.oc-4/src/main/resources/com.parkit.parkingsystem.config.properties"))) {
+        try (InputStream input = Files.newInputStream(Paths.get("/Users/louisdiilio/IdeaProjects/@ Openclassrooms/parkingsystem/src/main/resources/config.properties"))) {
 
             Properties prop = new Properties();
 
             prop.load(input);
 
             return prop;
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
         }
-        return null;
     }
 }

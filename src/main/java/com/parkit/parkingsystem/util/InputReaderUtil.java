@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class InputReaderUtil {
 
-    private static final Scanner scan = new Scanner(System.in);
-    private static final Logger logger = LogManager.getLogger("InputReaderUtil");
+    private static final Scanner SCAN = new Scanner(System.in);
+    private static final Logger LOGGER = LogManager.getLogger("InputReaderUtil");
 
     /**
      * Return the
@@ -16,9 +16,9 @@ public class InputReaderUtil {
      */
     public int readSelection() {
         try {
-            return Integer.parseInt(scan.nextLine());
+            return Integer.parseInt(SCAN.nextLine());
         } catch (Exception e) {
-            logger.error("Error while reading user input from Shell", e);
+            LOGGER.error("Error while reading user input from Shell", e);
             System.out.println("Error reading input. Please enter valid number for proceeding further");
             return -1;
         }
@@ -29,7 +29,7 @@ public class InputReaderUtil {
      * @return the vehicle plate written to the console by the user
      */
     public String readVehiclePlate() {
-        String vehiclePlate = scan.nextLine();
+        String vehiclePlate = SCAN.nextLine();
         if (vehiclePlate == null || vehiclePlate.trim().length() == 0)
             throw new IllegalArgumentException("Invalid input provided");
 

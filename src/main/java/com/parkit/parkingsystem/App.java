@@ -6,15 +6,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class App {
-    private static final Logger logger = LogManager.getLogger("com.parkit.parkingsystem.App");
 
-    private static final PropertiesLoader configLoader = new PropertiesLoader();
+    private static final Logger LOGGER = LogManager.getLogger("App");
+    private static final String CONFIG_PATH = "/Users/louisdiilio/IdeaProjects/@ Openclassrooms/parkingsystem/src/main/resources/config.properties";
+    private static final PropertiesLoader CONFIG_LOADER = new PropertiesLoader();
+
     public static void main(String[] args) {
-        logger.info("Initializing Parking System");
+        LOGGER.info("Initializing Parking System");
         InteractiveShell.loadInterface();
     }
 
     public static String getConfig(String key) {
-        return configLoader.getProperties().getProperty(key);
+        return CONFIG_LOADER.getProperties().getProperty(key);
     }
+
+    public static String getConfigPath() { return CONFIG_PATH; }
 }

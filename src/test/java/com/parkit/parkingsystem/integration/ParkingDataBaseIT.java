@@ -1,7 +1,8 @@
-package parkingsystem.integration;
+package com.parkit.parkingsystem.integration;
 
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
+import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
@@ -10,15 +11,14 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import parkingsystem.integration.config.DataBaseTestConfig;
-import parkingsystem.integration.service.DataBasePrepareService;
+import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
-    private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static final DataBaseTestConfig DATA_BASE_TEST_CONFIG = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
 
@@ -31,10 +31,10 @@ public class ParkingDataBaseIT {
     @BeforeAll
     private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
-        parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
+        parkingSpotDAO.dataBaseConfig = DATA_BASE_TEST_CONFIG;
         ticketDAO = new TicketDAO();
         fareCalculatorService = new FareCalculatorService();
-        ticketDAO.dataBaseConfig = dataBaseTestConfig;
+        ticketDAO.dataBaseConfig = DATA_BASE_TEST_CONFIG;
         dataBasePrepareService = new DataBasePrepareService();
     }
 

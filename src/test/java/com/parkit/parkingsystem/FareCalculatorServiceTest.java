@@ -1,4 +1,4 @@
-package parkingsystem;
+package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.loader.PropertiesLoader;
 import com.parkit.parkingsystem.model.ParkingSpot;

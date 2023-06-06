@@ -1,4 +1,4 @@
-package parkingsystem.integration.config;
+package com.parkit.parkingsystem.integration.config;
 
 import com.parkit.parkingsystem.App;
 import com.parkit.parkingsystem.config.DataBaseConfig;
@@ -16,7 +16,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
             logger.info("Create DB connection");
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(
-                    App.getConfig("DB_TEST"),App.getConfig("DB_USER"),App.getConfig("DB_PASSWORD"));
+                    App.getConfig("DB_TEST"),App.getConfig("DB_USER_TEST"),App.getConfig("DB_PASSWORD_TEST"));
         } catch (Exception e) {
             logger.error("Error connecting to the test database", e);
             throw new RuntimeException("Error connecting to the test database", e);

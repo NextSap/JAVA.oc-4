@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 
 public class TicketDAO {
 
-    private static final Logger logger = LogManager.getLogger("TicketDAO");
+    private static final Logger LOGGER = LogManager.getLogger("TicketDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
@@ -35,7 +35,7 @@ public class TicketDAO {
 
             dataBaseConfig.closePreparedStatement(ps);
         } catch (Exception e) {
-            logger.error("Error saving ticket:", e);
+            LOGGER.error("Error saving ticket:", e);
         } finally {
             dataBaseConfig.closeConnection(con);
         }
@@ -65,7 +65,7 @@ public class TicketDAO {
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
         } catch (Exception ex) {
-            logger.error("Error getting ticket:", ex);
+            LOGGER.error("Error getting ticket:", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
         }
@@ -85,7 +85,7 @@ public class TicketDAO {
 
             dataBaseConfig.closePreparedStatement(ps);
         } catch (Exception ex) {
-            logger.error("Error updating ticket info:", ex);
+            LOGGER.error("Error updating ticket info:", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
         }
@@ -106,7 +106,7 @@ public class TicketDAO {
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeResultSet(rs);
         } catch (Exception ex) {
-            logger.error("Error getting amount of ticket:", ex);
+            LOGGER.error("Error getting amount of ticket:", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
         }

@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 
 public class InteractiveShell {
 
-    private static final Logger logger = LogManager.getLogger("InteractiveShell");
+    private static final Logger LOGGER = LogManager.getLogger("InteractiveShell");
 
     public static void loadInterface() {
-        logger.info("com.parkit.parkingsystem.App initialized!!!");
+        LOGGER.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
 
         boolean continueApp = true;

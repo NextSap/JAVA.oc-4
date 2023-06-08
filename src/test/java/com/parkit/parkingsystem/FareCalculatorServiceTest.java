@@ -63,7 +63,7 @@ public class FareCalculatorServiceTest {
     public void calculateFareUnknownType() {
         ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
         ticket.setOutTime(new Date());
-        ticket.setParkingSpot(new ParkingSpot(1, null, false));
+        ticket.setParkingSpot(ParkingSpot.builder().withId(1).withParkingType(null).withIsAvailable(false).build());
 
         assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket));
     }

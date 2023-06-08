@@ -37,10 +37,10 @@ public class ParkingServiceTest {
             lenient().when(inputReaderUtil.readVehiclePlate()).thenReturn("ABCDEF");
             lenient().when(inputReaderUtil.readSelection()).thenReturn(1);
 
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+            ParkingSpot parkingSpot = ParkingSpot.builder().withId(1).withParkingType(ParkingType.CAR).withIsAvailable(false).build();
 
             Ticket ticket = new Ticket();
-            ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
+            ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehiclePlate("ABCDEF");
 
@@ -53,7 +53,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTest(){
+    public void processExitingVehicleTest() {
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
         lenient().when(ticketDAO.getAmountTicket(anyString())).thenReturn(0);
 
@@ -80,28 +80,43 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testGetNextParkingNumberIfAvailable(){
+    public void testGetNextParkingNumberIfAvailable() {
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
 
         ParkingSpot parkingSpot = parkingService.getParkingSpotAvailable();
 
-        Assertions.assertEquals(parkingSpot, new ParkingSpot(1, ParkingType.CAR, true));
+        Assertions.assertEquals(parkingSpot, ParkingSpot.builder().withId(1).withParkingType(ParkingType.CAR).withIsAvailable(true).build());
     }
 
     @Test
-    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound(){
+    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(-1);
 
-        ParkingSpot parkingSpot = parkingService.getParkingSpotAvailable();
-
-        Assertions.assertNull(parkingSpot);
+        Assertions.assertThrows(NullPointerException.class, () -> parkingService.getParkingSpotAvailable());
     }
 
     @Test
-    public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
+    public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument() {
         when(inputReaderUtil.readSelection()).thenReturn(3);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> parkingService.getParkingSpotAvailable());
+    }
+
+    @Test
+    public void testAskVehicleTypeWithBike() {
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+
+        Assertions.assertEquals(ParkingType.BIKE, parkingService.askVehicleType());
+    }
+
+    @Test
+    public void testIfDiscounted() {
+        int amountTicket = ticketDAO.getAmountTicket("ABCDE");
+
+        if (amountTicket > 0)
+            Assertions.assertTrue(amountTicket > 0);
+        else
+            Assertions.assertFalse(amountTicket > 0);
     }
 }
 

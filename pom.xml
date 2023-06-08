@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.5</version>
+            <version>0.8.10</version>
             <type>maven-plugin</type>
         </dependency>
         <dependency>
@@ -64,6 +64,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.28</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>3.14.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -145,6 +151,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.1.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
             </plugin>
         </plugins>
     </build>

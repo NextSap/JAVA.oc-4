@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 public class App {
 
     private static final Logger LOGGER = LogManager.getLogger("App");
-    private static final String CONFIG_PATH = "/Users/louisdiilio/IdeaProjects/@ Openclassrooms/parkingsystem/src/main/resources/config.properties";
+    private static final String CONFIG_PATH = "src/main/resources/config.properties";
     private static final PropertiesLoader CONFIG_LOADER = new PropertiesLoader();
 
     public static void main(String[] args) {

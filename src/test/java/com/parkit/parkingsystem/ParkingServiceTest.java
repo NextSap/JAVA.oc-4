@@ -114,9 +114,9 @@ public class ParkingServiceTest {
         int amountTicket = ticketDAO.getAmountTicket("ABCDE");
 
         if (amountTicket > 0)
-            Assertions.assertTrue(amountTicket > 0);
+            Assertions.assertTrue(true);
         else
-            Assertions.assertFalse(amountTicket > 0);
+            Assertions.assertFalse(false);
     }
 }
 

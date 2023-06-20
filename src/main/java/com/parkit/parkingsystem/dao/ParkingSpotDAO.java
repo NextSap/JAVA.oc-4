@@ -1,9 +1,9 @@
 package com.parkit.parkingsystem.dao;
 
+import com.parkit.parkingsystem.App;
 import com.parkit.parkingsystem.config.DataBaseConfig;
-import com.parkit.parkingsystem.constants.DBConstants;
-import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
+import com.parkit.parkingsystem.model.ParkingType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,71 +12,74 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ParkingSpotDAO {
-    private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
+    private static final Logger LOGGER = LogManager.getLogger("ParkingSpotDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-    public int getNextAvailableSlot(ParkingType parkingType){
-        Connection con = null;
-        int result=-1;
-        try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_NEXT_PARKING_SPOT);
+    public int getNextAvailableSlot(ParkingType parkingType) {
+        Connection con = dataBaseConfig.getConnection();
+        int nextSlot = -1;
+
+        try (PreparedStatement ps = con.prepareStatement(App.getConfig("GET_NEXT_PARKING_SPOT"))) {
             ps.setString(1, parkingType.toString());
+
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                result = rs.getInt(1);;
-            }
+
+            if (rs.next())
+                nextSlot = rs.getInt(1);
+
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
-        }catch (Exception ex){
-            logger.error("Error fetching next available slot",ex);
-        }finally {
+        } catch (Exception ex) {
+            LOGGER.error("Error fetching next available slot:", ex);
+        } finally {
             dataBaseConfig.closeConnection(con);
         }
-        return result;
+        return nextSlot;
     }
 
-    public boolean updateParking(ParkingSpot parkingSpot){
-        //update the availability fo that parking slot
-        Connection con = null;
-        try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+    public boolean updateParking(ParkingSpot parkingSpot) {
+        Connection con = dataBaseConfig.getConnection();
+        boolean updated = false;
+
+        try (PreparedStatement ps = con.prepareStatement(App.getConfig("UPDATE_PARKING_SPOT"))) {
             ps.setBoolean(1, parkingSpot.isAvailable());
             ps.setInt(2, parkingSpot.getId());
-            int updateRowCount = ps.executeUpdate();
+
+            updated = ps.execute();
+
             dataBaseConfig.closePreparedStatement(ps);
-            return (updateRowCount == 1);
-        }catch (Exception ex){
-            logger.error("Error updating parking info",ex);
-            return false;
-        }finally {
+        } catch (Exception ex) {
+            LOGGER.error("Error updating parking:", ex);
+        } finally {
             dataBaseConfig.closeConnection(con);
         }
+        return updated;
     }
 
     public ParkingSpot getParking(int id) {
-        Connection con = null;
-        try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_PARKING_SPOT);
+        Connection con = dataBaseConfig.getConnection();
+        ParkingSpot parkingSpot = null;
+
+        try (PreparedStatement ps = con.prepareStatement(App.getConfig("GET_PARKING_SPOT"))) {
             ps.setInt(1, id);
+
             ResultSet rs = ps.executeQuery();
-            ParkingSpot parkingSpot = new ParkingSpot();
-            if(rs.next()) {
-                parkingSpot.setId(rs.getInt(1));
-                parkingSpot.setAvailable(rs.getBoolean(2));
-                parkingSpot.setParkingType(rs.getString(3).equals("BIKE") ? ParkingType.BIKE : ParkingType.CAR);
-            }
+
+            if (rs.next())
+                parkingSpot = ParkingSpot.builder()
+                        .withId(rs.getInt(1))
+                        .withIsAvailable(rs.getBoolean(2))
+                        .withParkingType(ParkingType.valueOf(rs.getString(3)))
+                        .build();
+
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
-            return parkingSpot;
-        }catch (Exception ex){
-            logger.error("Error getting parking info", ex);
-            return null;
-        }finally {
+        } catch (Exception ex) {
+            LOGGER.error("Error getting parking info:", ex);
+        } finally {
             dataBaseConfig.closeConnection(con);
         }
+        return parkingSpot;
     }
 }

@@ -1,60 +1,29 @@
 package com.parkit.parkingsystem.model;
 
-import com.parkit.parkingsystem.constants.ParkingType;
+import lombok.*;
 
 import java.util.Objects;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(setterPrefix = "with")
 public class ParkingSpot {
-    private int number;
+    private int id;
     private ParkingType parkingType;
     private boolean isAvailable;
-
-    public ParkingSpot() {
-        this.number = 0;
-        this.parkingType = null;
-        this.isAvailable = true;
-    }
-
-    public ParkingSpot(int number, ParkingType parkingType, boolean isAvailable) {
-        this.number = number;
-        this.parkingType = parkingType;
-        this.isAvailable = isAvailable;
-    }
-
-    public int getId() {
-        return number;
-    }
-
-    public void setId(int number) {
-        this.number = number;
-    }
-
-    public ParkingType getParkingType() {
-        return parkingType;
-    }
-
-    public void setParkingType(ParkingType parkingType) {
-        this.parkingType = parkingType;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParkingSpot that = (ParkingSpot) o;
-        return number == that.number && isAvailable == that.isAvailable && parkingType == that.parkingType;
+        return id == that.id && isAvailable == that.isAvailable && parkingType == that.parkingType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, parkingType, isAvailable);
+        return Objects.hash(id, parkingType, isAvailable);
     }
 }

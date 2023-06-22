@@ -64,6 +64,11 @@ public class TicketDAO {
 
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
+
+            if (ticket == null) {
+                LOGGER.error("Error getting ticket: ticket not found");
+                throw new NullPointerException("Ticket with plate `" + vehiclePlate + "` not found");
+            }
         } catch (Exception ex) {
             LOGGER.error("Error getting ticket:", ex);
         } finally {

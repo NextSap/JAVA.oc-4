@@ -85,6 +85,9 @@ public class ParkingService {
         String vehiclePlate = askVehiclePlate();
 
         Ticket ticket = ticketDAO.getTicket(vehiclePlate);
+
+        if(ticket == null) return;
+
         ticket.setOutTime(new Date());
 
         FARE_CALCULATOR_SERVICE.calculateFare(ticket);
@@ -99,6 +102,5 @@ public class ParkingService {
         } else {
             System.out.println("Unable to update ticket information. Error occurred");
         }
-
     }
 }
